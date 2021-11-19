@@ -1,29 +1,29 @@
 function a() {
-  console.log("[nestNumber] undefined1");
+  console.log("[nestNumber] 1");
 
   function b() {
-    console.log("[nestNumber] undefined11");
+    console.log("[nestNumber] 2");
 
     function d() {
-      console.log("[nestNumber] undefined111");
+      console.log("[nestNumber] 3");
 
       function e() {
-        console.log("[nestNumber] undefined1111");
+        console.log("[nestNumber] 4");
       }
     }
   }
 
   function c() {
-    console.log("[nestNumber] undefined11111");
+    console.log("[nestNumber] 2");
 
     function d() {
-      console.log("[nestNumber] undefined111111");
+      console.log("[nestNumber] 3");
 
       function e() {
-        console.log("[nestNumber] undefined1111111");
+        console.log("[nestNumber] 4");
 
         function gg() {
-          console.log("[nestNumber] undefined11111111");
+          console.log("[nestNumber] 5");
         }
       }
     }

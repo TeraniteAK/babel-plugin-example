@@ -1,7 +1,5 @@
 module.exports = function (babel) {
     const parse = require('@babel/parser').parse
-    const _ = require('lodash')
-    const {blockStatement} = require("@babel/types");
 
     function createInsertedAST(tag, nodeName) {
         // inserted code: console.log(`[enter] function "${path.node.name}"`)
@@ -15,19 +13,19 @@ module.exports = function (babel) {
     return {
         visitor: {
             'Program': {
-                enter(state) {
-                    state.set("functionNestCounter", "wahaha")
+                enter(path, state) {
+                    state.set("functionNestCounter", 0)
                 }
             },
             'FunctionDeclaration': {
                 enter(path, state) {
-                    state.set("functionNestCounter", state.get("functionNestCounter") + "1")
+                    state.set("functionNestCounter", state.get("functionNestCounter") + 1)
 
                     const insertedASTNode = createInsertedAST("nestNumber", state.get("functionNestCounter"))
                     path.node.body.body.unshift(insertedASTNode)
                 },
-                exit(state) {
-                    state.set("functionNestCounter", state.get("functionNestCounter") + "2")
+                exit(path, state) {
+                    state.set("functionNestCounter", state.get("functionNestCounter") - 1)
                 }
             }
         }

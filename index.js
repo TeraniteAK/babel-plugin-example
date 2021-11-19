@@ -1,8 +1,8 @@
 const babel = require("@babel/core");
 const fs = require('fs')
-inputCodePath = 'inputCode/lab4.js'
-outputCodePath = 'outputCode/outputLab4.js'
-pluginPath = './visitors/lab4Visitor.js'
+inputCodePath = 'inputCode/example.js'
+outputCodePath = 'outputCode/output.js'
+pluginPath = './visitors/myVisitor.js'
 
 const inputCode = fs.readFileSync(inputCodePath, 'utf8')
 console.log(inputCode)
