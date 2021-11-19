@@ -1,4 +1,5 @@
-const {parse} = require("@babel/parser");
+const {blockStatement} = require("@babel/types");
+const _ = require("lodash");
 module.exports = function (babel) {
     const parse = require('@babel/parser').parse
 
@@ -16,14 +17,22 @@ module.exports = function (babel) {
             // including async function
             'FunctionDeclaration': {
                 enter(path) {
+                    if(path.node._shadow_) return
+
                     // console.log(`[enter] function "${path.node.name}"`)
                     const insertedASTNode = createInsertedAST("enter", "function " + path.node.id.name)
                     path.node.body.body.unshift(insertedASTNode)
-                },
-                exit(path) {
-                    // console.log(`[exit ] function "${path.node.name}"`)
-                    const insertedASTNode = createInsertedAST("exit ", "function " + path.node.id.name)
-                    path.node.body.body.push(insertedASTNode)
+                }
+            },
+            'ReturnStatement': {
+                enter(path) {
+                    if(path.node._shadow_) return
+
+                    const originalReturn = _.cloneDeep(path.node)
+                    const insertedASTNode = createInsertedAST("exit", "function")
+
+                    originalReturn._shadow_ = true
+                    path.replaceWith(blockStatement([insertedASTNode, originalReturn]))
                 }
             }
         }
